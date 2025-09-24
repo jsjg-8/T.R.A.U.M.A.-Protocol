@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3 uid="uid://hm1ki7dr00vy"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7dm0k"]
+
+[sub_resource type="CurveTexture" id="CurveTexture_7dm0k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7dm0k"]
+albedo_color = Color(0.15294118, 0.40392157, 1, 1)
+metallic = 0.21
+roughness = 0.3
+ao_enabled = true
+ao_texture = SubResource("CurveTexture_7dm0k")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ig7tw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
+
+[sub_resource type="Environment" id="Environment_7dm0k"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ig7tw"]
+
+[sub_resource type="Compositor" id="Compositor_0xm2m"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7dm0k"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ig7tw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7dm0k"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1622858, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_7dm0k")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_7dm0k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_ig7tw")
+
+[node name="CameraPivot" type="Node3D" parent="Player"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CameraPivot"]
+shape = SubResource("BoxShape3D_7dm0k")
+spring_length = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9943583, 0.10607317, 0, -0.10607317, 0.9943583, 0, 0.80470204, 1.9807065)
+environment = SubResource("Environment_7dm0k")
+attributes = SubResource("CameraAttributesPractical_ig7tw")
+compositor = SubResource("Compositor_0xm2m")
+current = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(12, 0, 0, 0, 12, 0, 0, 0, 12, 0, 0, 0)
+mesh = SubResource("PlaneMesh_7dm0k")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("WorldBoundaryShape3D_ig7tw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 0.90680873, 0.42154235, 0, -0.42154235, 0.90680873, 0, 6.709083, 4.728651)
+
+[node name="PlayerController" type="PlayerController" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerController"]
+shape = SubResource("CapsuleShape3D_7dm0k")
