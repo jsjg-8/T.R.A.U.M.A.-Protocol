@@ -1,0 +1,39 @@
+name: Fast Debug (linux x86_64 single template_debug)
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  fast:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup godot-cpp
+        uses: ./godot-cpp/.github/actions/setup-godot-cpp
+        with:
+          platform: linux
+          em-version: 3.1.62
+
+      - name: Restore .scons_cache
+        uses: ./godot-cpp/.github/actions/godot-cache-restore
+        with:
+          scons-cache: ${{ github.workspace }}/.scons-cache/
+          cache-name: fast_linux_x86_64_single_template_debug
+
+      - name: Build (fast)
+        shell: sh
+        env:
+          SCONS_CACHE: ${{ github.workspace }}/.scons-cache/
+        run: |
+          scons target=template_debug platform=linux arch=x86_64 precision=single -j2
+
+      - name: Save .scons_cache
+        uses: ./godot-cpp/.github/actions/godot-cache-save
+        with:
+          scons-cache: ${{ github.workspace }}/.scons-cache/
+          cache-name: fast_linux_x86_64_single_template_debug

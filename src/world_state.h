@@ -24,7 +24,7 @@ constexpr FactionId INVALID_FACTION_ID = 0;
 constexpr RoomId INVALID_ROOM_ID = 0;
 
 // Agent goal states — what the agent is trying to do at the highest level
-enum class AgentGoal : uint8_t {
+enum class AgentGoal : int64_t {
 	IDLE,
 	PATROL,
 	ATTACK,
@@ -37,7 +37,7 @@ enum class AgentGoal : uint8_t {
 };
 
 // Agent life state
-enum class AgentLifeState : uint8_t {
+enum class AgentLifeState : int64_t {
 	ALIVE,
 	STABILIZED,
 	INCAPACITATED,
@@ -45,7 +45,7 @@ enum class AgentLifeState : uint8_t {
 };
 
 // Tactical state — set by Squad, read by Agent
-enum class TacticalState : uint8_t {
+enum class TacticalState : int64_t {
 	IDLE,
 	ATTACK,
 	DEFEND,
