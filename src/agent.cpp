@@ -27,12 +27,10 @@ void Agent::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_district_id"), &Agent::get_district_id);
 	ClassDB::bind_method(D_METHOD("set_max_health", "h"), &Agent::set_max_health);
 	ClassDB::bind_method(D_METHOD("get_max_health"), &Agent::get_max_health);
-	ClassDB::bind_method(D_METHOD("set_life_state", "state"), &Agent::set_life_state);
-	ClassDB::bind_method(D_METHOD("get_life_state"), &Agent::get_life_state);
-	ClassDB::bind_method(D_METHOD("set_goal", "g"), &Agent::set_goal);
-	ClassDB::bind_method(D_METHOD("get_goal"), &Agent::get_goal);
-	ClassDB::bind_method(D_METHOD("set_tactical_state", "s"), &Agent::set_tactical_state);
-	ClassDB::bind_method(D_METHOD("get_tactical_state"), &Agent::get_tactical_state);
+	// Life/goal/tactical are pure C++ simulation enums (enum class : int64_t).
+	// Not exposed as Godot Variant properties in POC — no GetTypeInfo/VARIANT_ENUM_CAST
+	// needed. Keep strong typing internally; expose as int if GDScript needs it later.
+	// Was: bind_method("set_life_state"/"get_life_state"/"set_goal"/... ) — removed.
 	ClassDB::bind_method(D_METHOD("set_squad_id", "id"), &Agent::set_squad_id);
 	ClassDB::bind_method(D_METHOD("get_squad_id"), &Agent::get_squad_id);
 	ClassDB::bind_method(D_METHOD("take_damage", "amount"), &Agent::take_damage);
