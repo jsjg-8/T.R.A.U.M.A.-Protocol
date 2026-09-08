@@ -24,6 +24,11 @@ if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/godot-cpp/src")
         COMMAND_ERROR_IS_FATAL ANY
     )
 endif()
+
+# godot-cpp 10.x requires GODOTCPP_API_VERSION; default to 4.7
+set(GODOTCPP_API_VERSION "4.7" CACHE STRING "Godot API version for binding generation")
+set(GODOTCPP_USE_HOT_RELOAD ON CACHE BOOL "Enable hot-reload in debug builds")
+
 add_subdirectory(godot-cpp SYSTEM)
 
 # Add godot-cpp's module path and include the exported functions.

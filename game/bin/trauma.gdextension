@@ -1,14 +1,15 @@
 [configuration]
 
 entry_symbol = "trauma_engine_init"
-compatibility_minimum = "4.1"
+compatibility_minimum = "4.7"
+reloadable = true
 
 [libraries]
 ; Relative paths ensure that our GDExtension can be placed anywhere in the project directory.
 macos.single.debug = "./macos/libTRAUMA.macos.template_debug.dylib"
 macos.double.debug = "./macos/libTRAUMA.macos.template_debug.double.dylib"
 macos.single.release = "./macos/libTRAUMA.macos.template_release.dylib"
-macos.double.release = "./macos/libTRAUMA.macos.template_debug.double.dylib"
+macos.double.release = "./macos/libTRAUMA.macos.template_release.double.dylib"
 
 ios.arm64.single.debug = "./ios/libTRAUMA.ios.template_debug.arm64.dylib"
 ios.arm64.double.debug = "./ios/libTRAUMA.ios.template_debug.arm64.double.dylib"
@@ -51,6 +52,6 @@ android.arm64.single.release = "./android/libTRAUMA.android.template_release.arm
 android.arm64.double.release = "./android/libTRAUMA.android.template_release.arm64.double.so"
 
 web.wasm32.single.debug = "./web/libTRAUMA.web.template_debug.wasm32.nothreads.wasm"
-web.wasm32.double.debug = "./web/libTRAUMA.web.template_release.wasm32.double.nothreads.wasm"
+web.wasm32.double.debug = "./web/libTRAUMA.web.template_debug.wasm32.double.nothreads.wasm"
 web.wasm32.single.release = "./web/libTRAUMA.web.template_release.wasm32.nothreads.wasm"
 web.wasm32.double.release = "./web/libTRAUMA.web.template_release.wasm32.double.nothreads.wasm"

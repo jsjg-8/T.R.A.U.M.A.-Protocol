@@ -35,17 +35,17 @@ Run the following command to download godot-cpp:
     git submodule update --init --recursive""")
     sys.exit(1)
 
-env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs})
+env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs, "api_version": "4.7"})
+
+# godot-cpp 10.x defaults use_hot_reload=False; restore debug hot-reload
+env["use_hot_reload"] = env["target"] in ["editor", "template_debug"]
 
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp") + Glob("src/**/*.cpp")
 
 if env["target"] in ["editor", "template_debug"]:
-    try:
-        doc_data = env.GodotCPPDocData("src/gen/doc_data.gen.cpp", source=Glob("doc_classes/*.xml"))
-        sources.append(doc_data)
-    except AttributeError:
-        print("Not including class reference as we're targeting a pre-4.3 baseline.")
+    doc_data = env.GodotCPPDocData("src/gen/doc_data.gen.cpp", source=Glob("doc_classes/*.xml"))
+    sources.append(doc_data)
 
 # .dev doesn't inhibit compatibility, so we don't need to key it.
 # .universal just means "compatible with all relevant arches" so we don't need to key it.

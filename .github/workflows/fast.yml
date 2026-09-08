@@ -18,6 +18,7 @@ jobs:
         with:
           platform: linux
           em-version: 3.1.62
+          scons-version: "4.8.0"
 
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
@@ -29,7 +30,7 @@ jobs:
         uses: ./godot-cpp/.github/actions/godot-cache-restore
         with:
           scons-cache: ${{ github.workspace }}/.scons-cache/
-          cache-name: fast_linux_x86_64_single_template_debug
+          cache-name: fast_linux_x86_64_single_template_debug_v4.7
 
       - name: Build (fast)
         shell: sh
@@ -38,11 +39,11 @@ jobs:
         run: |
           nproc=$(nproc)
           echo "Building with -j${nproc} (was -j2)"
-          scons target=template_debug platform=linux arch=x86_64 precision=single -j${nproc}
+          scons target=template_debug platform=linux arch=x86_64 precision=single api_version=4.7 -j${nproc}
           ccache -s || true
 
       - name: Save .scons_cache
         uses: ./godot-cpp/.github/actions/godot-cache-save
         with:
           scons-cache: ${{ github.workspace }}/.scons-cache/
-          cache-name: fast_linux_x86_64_single_template_debug
+          cache-name: fast_linux_x86_64_single_template_debug_v4.7
