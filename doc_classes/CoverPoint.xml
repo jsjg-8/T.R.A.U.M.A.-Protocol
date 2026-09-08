@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="CoverPoint" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>Cover position with facing and exposure level.</brief_description>
+	<description>Cover position with facing direction and exposure level. Part of the semantic map, owned by Room for tactical cover queries.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="set_position">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<description>Set the cover position.</description>
+		</method>
+		<method name="get_position">
+			<return type="Vector3" />
+			<description>Get the cover position.</description>
+		</method>
+		<method name="set_facing">
+			<return type="void" />
+			<param index="0" name="facing" type="Vector3" />
+			<description>Set the facing direction.</description>
+		</method>
+		<method name="get_facing">
+			<return type="Vector3" />
+			<description>Get the facing direction.</description>
+		</method>
+		<method name="set_exposure">
+			<return type="void" />
+			<param index="0" name="exposure" type="float" />
+			<description>Set the exposure level.</description>
+		</method>
+		<method name="get_exposure">
+			<return type="float" />
+			<description>Get the exposure level.</description>
+		</method>
+		<method name="set_cover_id">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the unique CoverId.</description>
+		</method>
+		<method name="get_cover_id">
+			<return type="int" />
+			<description>Get the unique CoverId.</description>
+		</method>
+	</methods>
+</class>

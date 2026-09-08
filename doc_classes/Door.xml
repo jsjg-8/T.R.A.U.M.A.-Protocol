@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Door" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>Connects two Rooms in the semantic map.</brief_description>
+	<description>Door connects two Rooms in the semantic map. Provides locking and open state with helper to resolve the opposite room.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="set_door_id">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the unique DoorId.</description>
+		</method>
+		<method name="get_door_id">
+			<return type="int" />
+			<description>Get the unique DoorId.</description>
+		</method>
+		<method name="set_room_a">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the first Room id.</description>
+		</method>
+		<method name="get_room_a">
+			<return type="int" />
+			<description>Get the first Room id.</description>
+		</method>
+		<method name="set_room_b">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the second Room id.</description>
+		</method>
+		<method name="get_room_b">
+			<return type="int" />
+			<description>Get the second Room id.</description>
+		</method>
+		<method name="set_locked">
+			<return type="void" />
+			<param index="0" name="locked" type="bool" />
+			<description>Set whether the door is locked.</description>
+		</method>
+		<method name="get_locked">
+			<return type="bool" />
+			<description>Get whether the door is locked.</description>
+		</method>
+		<method name="set_open">
+			<return type="void" />
+			<param index="0" name="open" type="bool" />
+			<description>Set whether the door is open.</description>
+		</method>
+		<method name="get_open">
+			<return type="bool" />
+			<description>Get whether the door is open.</description>
+		</method>
+		<method name="get_other_room">
+			<return type="int" />
+			<param index="0" name="from" type="int" />
+			<description>Given one Room id, return the Room id on the opposite side.</description>
+		</method>
+	</methods>
+</class>

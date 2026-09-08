@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Room" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>Semantic region in the world containing cover points and doors.</brief_description>
+	<description>Semantic region in the world containing cover points and doors. Belongs to a Sector district and defines a center position with radius.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="set_room_id">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the unique RoomId.</description>
+		</method>
+		<method name="get_room_id">
+			<return type="int" />
+			<description>Get the unique RoomId.</description>
+		</method>
+		<method name="set_room_name">
+			<return type="void" />
+			<param index="0" name="name" type="String" />
+			<description>Set the room name.</description>
+		</method>
+		<method name="get_room_name">
+			<return type="String" />
+			<description>Get the room name.</description>
+		</method>
+		<method name="set_district_id">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the district id.</description>
+		</method>
+		<method name="get_district_id">
+			<return type="int" />
+			<description>Get the district id.</description>
+		</method>
+		<method name="set_center_position">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<description>Set the center position.</description>
+		</method>
+		<method name="get_center_position">
+			<return type="Vector3" />
+			<description>Get the center position.</description>
+		</method>
+		<method name="set_radius">
+			<return type="void" />
+			<param index="0" name="radius" type="float" />
+			<description>Set the room radius.</description>
+		</method>
+		<method name="get_radius">
+			<return type="float" />
+			<description>Get the room radius.</description>
+		</method>
+		<method name="add_cover_point">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Add a cover point by id.</description>
+		</method>
+		<method name="add_door">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Add a door by id.</description>
+		</method>
+	</methods>
+</class>

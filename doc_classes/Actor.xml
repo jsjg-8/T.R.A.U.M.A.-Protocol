@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Actor" inherits="Node3D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>Optional visual wrapper driving NavigationAgent3D for an Agent.</brief_description>
+	<description>Optional visual wrapper driving NavigationAgent3D for an Agent. Synchronizes transform from simulation state and handles navigation queries.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="bind_agent">
+			<return type="void" />
+			<param index="0" name="agent" type="Object" />
+			<description>Bind an Agent to this Actor for synchronization.</description>
+		</method>
+		<method name="get_bound_agent">
+			<return type="Object" />
+			<description>Get the bound Agent.</description>
+		</method>
+		<method name="navigate_to">
+			<return type="void" />
+			<param index="0" name="target" type="Vector3" />
+			<description>Navigate to the target position.</description>
+		</method>
+		<method name="stop_navigation">
+			<return type="void" />
+			<description>Stop current navigation.</description>
+		</method>
+		<method name="get_is_navigating">
+			<return type="bool" />
+			<description>Get whether currently navigating.</description>
+		</method>
+		<method name="set_arrival_threshold">
+			<return type="void" />
+			<param index="0" name="threshold" type="float" />
+			<description>Set the arrival threshold distance.</description>
+		</method>
+		<method name="get_arrival_threshold">
+			<return type="float" />
+			<description>Get the arrival threshold distance.</description>
+		</method>
+		<method name="set_agent_id">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the unique AgentId.</description>
+		</method>
+		<method name="get_agent_id">
+			<return type="int" />
+			<description>Get the unique AgentId.</description>
+		</method>
+		<method name="sync_from_agent">
+			<return type="void" />
+			<description>Synchronize transform and state from the bound Agent.</description>
+		</method>
+	</methods>
+</class>

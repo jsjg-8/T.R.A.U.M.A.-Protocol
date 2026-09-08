@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Sector" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>District containing multiple Rooms.</brief_description>
+	<description>District containing multiple Rooms. Logical grouping for world simulation and faction control.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="set_sector_id">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the unique SectorId.</description>
+		</method>
+		<method name="get_sector_id">
+			<return type="int" />
+			<description>Get the unique SectorId.</description>
+		</method>
+		<method name="set_sector_name">
+			<return type="void" />
+			<param index="0" name="name" type="String" />
+			<description>Set the sector name.</description>
+		</method>
+		<method name="get_sector_name">
+			<return type="String" />
+			<description>Get the sector name.</description>
+		</method>
+		<method name="add_room">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Add a room by id.</description>
+		</method>
+	</methods>
+</class>

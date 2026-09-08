@@ -11,6 +11,8 @@
 #include "health_component.h"
 #include "traffic_light.h"
 #include "world_simulation.h"
+#include "sector.h"
+#include "actor.h"
 
 using namespace godot;
 
@@ -24,6 +26,11 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 	GDREGISTER_CLASS(WorldSimulation);
 	GDREGISTER_CLASS(PlayerController);
 	GDREGISTER_CLASS(InputManager);
+	GDREGISTER_CLASS(CoverPoint);
+	GDREGISTER_CLASS(Door);
+	GDREGISTER_CLASS(Room);
+	GDREGISTER_CLASS(Sector);
+	GDREGISTER_CLASS(Actor);
 	// Create InputManager singleton so PlayerController::_ready() can use it
 	memnew(InputManager);
 	InputManager::get_singleton()->initialize_input_map();
