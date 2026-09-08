@@ -1,5 +1,6 @@
 #include "world_simulation.h"
 #include "agent.h"
+#include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
@@ -13,6 +14,8 @@ void WorldSimulation::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_agent", "id"), &WorldSimulation::get_agent);
 	ClassDB::bind_method(D_METHOD("set_debug_verbose", "verbose"), &WorldSimulation::set_debug_verbose);
 	ClassDB::bind_method(D_METHOD("get_debug_verbose"), &WorldSimulation::get_debug_verbose);
+
+	ClassDB::add_property("WorldSimulation", PropertyInfo(Variant::BOOL, "debug_verbose"), "set_debug_verbose", "get_debug_verbose");
 
 	ADD_SIGNAL(MethodInfo("tick_completed", PropertyInfo(Variant::FLOAT, "elapsed_time")));
 }
@@ -32,6 +35,9 @@ void WorldSimulation::_ready() {
 }
 
 void WorldSimulation::_physics_process(double delta) {
+	if (Engine::get_singleton()->is_editor_hint()) {
+		return;
+	}
 	tick(delta);
 }
 

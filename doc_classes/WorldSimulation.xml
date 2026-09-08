@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="WorldSimulation" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>Tick root for T.R.A.U.M.A. world simulation.</brief_description>
+	<description>Owns WorldState double-buffer, drives tick order Perception → Squad → Agent → Faction → World mutation → Director (next-tick). Call tick(delta) from _physics_process only; respects Jolt separate thread. Follows SConstruct doc gen pattern.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="tick">
+			<return type="void" />
+			<param index="0" name="delta" type="float" />
+			<description>Advance one simulation tick. Advances tick_count and elapsed_time, updates agents and world state.</description>
+		</method>
+		<method name="get_agent_count">
+			<return type="int" />
+			<description>Return number of agents in the simulation.</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="tick_completed">
+			<param index="0" name="elapsed_time" type="float" />
+			<description>Emitted after each tick with the new elapsed_time.</description>
+		</signal>
+	</signals>
+</class>

@@ -18,6 +18,8 @@ private:
 
 	std::vector<Agent *> agents;
 
+	bool debug_verbose = false;
+
 	void tick_perception(double delta);
 	void tick_squads(double delta);
 	void tick_agents(double delta);
@@ -47,7 +49,4 @@ public:
 
 	void set_debug_verbose(bool verbose);
 	bool get_debug_verbose() const;
-
-private:
-	bool debug_verbose = false;
 };

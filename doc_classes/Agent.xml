@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Agent" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>Lightweight simulation agent for T.R.A.U.M.A. world tick.</brief_description>
+	<description>Simulation Agent owns AgentState (faction, room, health, goal) and ticks via WorldSimulation. Separated from Godot Actor (Node3D + NavigationAgent3D) for headless scaling. Follows HealthComponent pattern for signals.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="set_agent_id">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the unique AgentId.</description>
+		</method>
+		<method name="get_agent_id">
+			<return type="int" />
+			<description>Get the unique AgentId.</description>
+		</method>
+		<method name="take_damage">
+			<return type="void" />
+			<param index="0" name="amount" type="float" />
+			<description>Apply damage, emit health_changed/death.</description>
+		</method>
+		<method name="heal">
+			<return type="void" />
+			<param index="0" name="amount" type="float" />
+			<description>Heal if alive, emit health_changed.</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="health_changed">
+			<param index="0" name="new_health" type="float" />
+			<param index="0" name="old_health" type="float" />
+			<description>Emitted when health changes.</description>
+		</signal>
+		<signal name="death">
+			<description>Emitted when health reaches zero.</description>
+		</signal>
+	</signals>
+</class>

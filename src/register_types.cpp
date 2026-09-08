@@ -7,8 +7,10 @@
 
 #include "./input_manager.h"
 #include "./player_controller.h"
+#include "agent.h"
 #include "health_component.h"
 #include "traffic_light.h"
+#include "world_simulation.h"
 
 using namespace godot;
 
@@ -16,8 +18,10 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
+	GDREGISTER_CLASS(Agent);
 	GDREGISTER_CLASS(HealthComponent);
 	GDREGISTER_CLASS(TrafficLight);
+	GDREGISTER_CLASS(WorldSimulation);
 	GDREGISTER_CLASS(PlayerController);
 	GDREGISTER_CLASS(InputManager);
 	// Create InputManager singleton so PlayerController::_ready() can use it

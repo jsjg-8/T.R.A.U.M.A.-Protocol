@@ -43,6 +43,14 @@ void Agent::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_debug_verbose", "verbose"), &Agent::set_debug_verbose);
 	ClassDB::bind_method(D_METHOD("get_debug_verbose"), &Agent::get_debug_verbose);
 
+	ClassDB::add_property("Agent", PropertyInfo(Variant::FLOAT, "health"), "set_health", "get_health");
+	ClassDB::add_property("Agent", PropertyInfo(Variant::FLOAT, "max_health"), "set_max_health", "get_max_health");
+	ClassDB::add_property("Agent", PropertyInfo(Variant::VECTOR3, "position"), "set_position", "get_position");
+	ClassDB::add_property("Agent", PropertyInfo(Variant::FLOAT, "move_speed", PROPERTY_HINT_RANGE, "0.1,20.0,0.1"), "set_move_speed", "get_move_speed");
+	ClassDB::add_property("Agent", PropertyInfo(Variant::INT, "agent_id"), "set_agent_id", "get_agent_id");
+	ClassDB::add_property("Agent", PropertyInfo(Variant::INT, "faction_id"), "set_faction_id", "get_faction_id");
+	ClassDB::add_property("Agent", PropertyInfo(Variant::BOOL, "debug_verbose"), "set_debug_verbose", "get_debug_verbose");
+
 	ADD_SIGNAL(MethodInfo("health_changed", PropertyInfo(Variant::FLOAT, "new_health"), PropertyInfo(Variant::FLOAT, "old_health")));
 	ADD_SIGNAL(MethodInfo("death"));
 }
