@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/variant/string.hpp>
 #include <godot_cpp/variant/vector3.hpp>
 #include <vector>
@@ -117,6 +116,8 @@ struct WorldState {
 	uint64_t tick_count = 0;
 };
 
-VARIANT_ENUM_CAST(AgentGoal);
-VARIANT_ENUM_CAST(AgentLifeState);
-VARIANT_ENUM_CAST(TacticalState);
+// Note: AgentGoal / AgentLifeState / TacticalState are pure C++ simulation enums.
+// Do NOT use VARIANT_ENUM_CAST here — enum class has no implicit int64_t
+// conversion, and these enums are not exposed as Godot Variant properties in POC.
+// If you later need to expose them (e.g., as @export), change to plain `enum`
+// or add explicit Variant conversion.
