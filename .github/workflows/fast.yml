@@ -19,6 +19,12 @@ jobs:
           platform: linux
           em-version: 3.1.62
 
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: fast-linux-x86_64-single
+          max-size: 500M
+
       - name: Restore .scons_cache
         uses: ./godot-cpp/.github/actions/godot-cache-restore
         with:
@@ -30,7 +36,10 @@ jobs:
         env:
           SCONS_CACHE: ${{ github.workspace }}/.scons-cache/
         run: |
-          scons target=template_debug platform=linux arch=x86_64 precision=single -j2
+          nproc=$(nproc)
+          echo "Building with -j${nproc} (was -j2)"
+          scons target=template_debug platform=linux arch=x86_64 precision=single -j${nproc}
+          ccache -s || true
 
       - name: Save .scons_cache
         uses: ./godot-cpp/.github/actions/godot-cache-save
