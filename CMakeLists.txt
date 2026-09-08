@@ -45,10 +45,14 @@ project(godot-cpp-template
 
 add_library(${LIBNAME} SHARED)
 
+file(GLOB_RECURSE TRAUMA_SOURCES CONFIGURE_DEPENDS
+    "src/*.cpp"
+    "src/*.h"
+)
+
 target_sources(${LIBNAME}
     PRIVATE
-    src/register_types.cpp
-    src/register_types.h
+    ${TRAUMA_SOURCES}
 )
 
 # Fetch a list of the xml files to use for documentation and add to our target
