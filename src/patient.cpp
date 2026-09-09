@@ -8,6 +8,9 @@ void Patient::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_patient_agent_id", "id"), &Patient::set_patient_agent_id);
 	ClassDB::bind_method(D_METHOD("get_patient_agent_id"), &Patient::get_patient_agent_id);
 
+	ClassDB::bind_method(D_METHOD("set_state_id", "state"), &Patient::set_state_id);
+	ClassDB::bind_method(D_METHOD("get_state_id"), &Patient::get_state_id);
+
 	ClassDB::bind_method(D_METHOD("set_assigned_medic", "id"), &Patient::set_assigned_medic);
 	ClassDB::bind_method(D_METHOD("get_assigned_medic"), &Patient::get_assigned_medic);
 
@@ -51,6 +54,14 @@ void Patient::set_state(PatientState p_state) {
 }
 
 PatientState Patient::get_state() const { return state; }
+
+void Patient::set_state_id(int64_t p_state) {
+	set_state(static_cast<PatientState>(p_state));
+}
+
+int64_t Patient::get_state_id() const {
+	return static_cast<int64_t>(state);
+}
 
 void Patient::set_assigned_medic(AgentId p_id) { assigned_medic_id = p_id; }
 AgentId Patient::get_assigned_medic() const { return assigned_medic_id; }

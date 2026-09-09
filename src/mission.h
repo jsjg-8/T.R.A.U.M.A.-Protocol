@@ -66,6 +66,10 @@ public:
 	MissionStatus get_status() const;
 
 	void add_objective(ObjectiveType p_type, RoomId p_room, AgentId p_agent);
+	// GDScript-visible int variants (enums are internal, not Variant-compatible).
+	void add_objective_with_ids(int64_t p_type, int64_t p_room, int64_t p_agent);
+	int64_t get_status_id() const;
+	int64_t get_current_objective_type_id() const;
 	int32_t get_objective_count() const;
 	int32_t get_current_objective_index() const;
 	ObjectiveType get_current_objective_type() const;

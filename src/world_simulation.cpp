@@ -1,5 +1,7 @@
 #include "world_simulation.h"
 #include "agent.h"
+#include "director.h"
+#include "faction_registry.h"
 #include "squad.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -21,6 +23,10 @@ void WorldSimulation::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_debug_verbose"), &WorldSimulation::get_debug_verbose);
 	ClassDB::bind_method(D_METHOD("get_tick_count"), &WorldSimulation::get_tick_count);
 	ClassDB::bind_method(D_METHOD("get_elapsed_time"), &WorldSimulation::get_elapsed_time);
+	ClassDB::bind_method(D_METHOD("set_director", "director"), &WorldSimulation::set_director);
+	ClassDB::bind_method(D_METHOD("get_director"), &WorldSimulation::get_director);
+	ClassDB::bind_method(D_METHOD("set_faction_registry", "registry"), &WorldSimulation::set_faction_registry);
+	ClassDB::bind_method(D_METHOD("get_faction_registry"), &WorldSimulation::get_faction_registry);
 
 	ClassDB::add_property("WorldSimulation", PropertyInfo(Variant::BOOL, "debug_verbose"), "set_debug_verbose", "get_debug_verbose");
 
@@ -90,7 +96,10 @@ void WorldSimulation::tick_agents(double delta) {
 }
 
 void WorldSimulation::tick_factions(double delta) {
-	// Phase 3: Faction updates
+	(void)delta;
+	if (faction_registry) {
+		faction_registry->update_factions(delta, next_state.agents);
+	}
 }
 
 void WorldSimulation::tick_world_mutation(double delta) {
@@ -108,8 +117,18 @@ void WorldSimulation::tick_world_mutation(double delta) {
 }
 
 void WorldSimulation::tick_director_observation(double delta) {
-	// Phase 3: Director reads WorldState
+	// Director observes the post-mutation snapshot and enqueues events for
+	// the NEXT tick — it never mutates live agent/squad state here.
+	if (director) {
+		director->observe(next_state, delta);
+	}
 }
+
+void WorldSimulation::set_director(Director *p_director) { director = p_director; }
+Director *WorldSimulation::get_director() const { return director; }
+
+void WorldSimulation::set_faction_registry(FactionRegistry *p_registry) { faction_registry = p_registry; }
+FactionRegistry *WorldSimulation::get_faction_registry() const { return faction_registry; }
 
 void WorldSimulation::add_agent(Agent *agent) {
 	if (!agent) {

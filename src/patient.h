@@ -40,6 +40,9 @@ public:
 
 	void set_state(PatientState p_state);
 	PatientState get_state() const;
+	// GDScript-visible int variants (enum is internal, not Variant-compatible).
+	void set_state_id(int64_t p_state);
+	int64_t get_state_id() const;
 
 	void set_assigned_medic(AgentId p_id);
 	AgentId get_assigned_medic() const;

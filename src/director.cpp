@@ -6,6 +6,9 @@ using namespace godot;
 
 void Director::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("clear_pending_events"), &Director::clear_pending_events);
+	ClassDB::bind_method(D_METHOD("emit_event_with_id", "type", "origin", "radius", "description"), &Director::emit_event_with_id);
+	ClassDB::bind_method(D_METHOD("get_history_count"), &Director::get_history_count);
+	ClassDB::bind_method(D_METHOD("get_history_event_type"), &Director::get_history_event_type);
 
 	ClassDB::bind_method(D_METHOD("set_mission_time_threshold", "threshold"), &Director::set_mission_time_threshold);
 	ClassDB::bind_method(D_METHOD("get_mission_time_threshold"), &Director::get_mission_time_threshold);
@@ -106,6 +109,21 @@ void Director::clear_pending_events() {
 
 const std::vector<DirectorEvent> &Director::get_event_history() const {
 	return event_history;
+}
+
+void Director::emit_event_with_id(int64_t p_type, const Vector3 &p_origin, float p_radius, const String &p_desc) {
+	emit_event(static_cast<DirectorEventType>(p_type), p_origin, p_radius, p_desc);
+}
+
+int64_t Director::get_history_count() const {
+	return event_history.size();
+}
+
+int64_t Director::get_history_event_type(int64_t p_index) const {
+	if (p_index < 0 || p_index >= event_history.size()) {
+		return -1;
+	}
+	return static_cast<int64_t>(event_history[p_index].type);
 }
 
 void Director::set_mission_time_threshold(float p_threshold) { mission_time_threshold = p_threshold; }

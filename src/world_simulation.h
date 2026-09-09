@@ -8,6 +8,8 @@
 using namespace godot;
 
 class Agent;
+class Director;
+class FactionRegistry;
 class Squad;
 
 class WorldSimulation : public Node {
@@ -19,6 +21,12 @@ private:
 
 	std::vector<Agent *> agents;
 	std::vector<Squad *> squads;
+
+	// Optional observers — attached by scene, never owned here.
+	// Director only reads the snapshot and enqueues events for next tick;
+	// it never calls Agent/Squad methods directly (god-object boundary).
+	Director *director = nullptr;
+	FactionRegistry *faction_registry = nullptr;
 
 	bool debug_verbose = false;
 
@@ -50,6 +58,11 @@ public:
 	void remove_squad(SquadId id);
 	Squad *get_squad(SquadId id) const;
 	int32_t get_squad_count() const;
+
+	void set_director(Director *p_director);
+	Director *get_director() const;
+	void set_faction_registry(FactionRegistry *p_registry);
+	FactionRegistry *get_faction_registry() const;
 
 	const WorldState &get_current_state() const { return current_state; }
 	WorldState &get_mutable_state() { return next_state; }

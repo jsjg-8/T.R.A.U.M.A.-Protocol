@@ -3,7 +3,38 @@ extends SceneTree
 # Phase 3 test: Trauma Team POC
 # Full mission loop: INSERT → LOCATE VIP → STABILIZE → ESCORT → EXTRACT
 # Then test with Director disruption
-# Run: godot --headless --path game/ -s tests/test_phase3_trauma_team.gd
+# Run locally (NOT in CI): godot --headless --path game/ -s tests/test_phase3_trauma_team.gd
+#
+# NOTE: sim enums (MissionStatus, ObjectiveType, PatientState,
+# DirectorEventType) are pure C++ (enum class, not Variant-compatible),
+# so GDScript uses int constants mirroring src/*.h order + the *_id /
+# *_with_ids accessors. Values must match declaration order in:
+#   src/mission.h (MissionStatus, ObjectiveType)
+#   src/patient.h (PatientState)
+#   src/director.h (DirectorEventType)
+
+# MissionStatus
+const MS_PENDING = 0
+const MS_IN_PROGRESS = 1
+const MS_COMPLETED_SUCCESS = 2
+const MS_COMPLETED_FAILURE = 3
+const MS_CANCELLED = 4
+# ObjectiveType
+const OBJ_LOCATE_VIP = 0
+const OBJ_STABILIZE_PATIENT = 1
+const OBJ_ESCORT_TO_EXTRACTION = 2
+const OBJ_EXTRACT = 3
+# PatientState
+const PS_CRITICAL = 0
+const PS_STABILIZED = 1
+const PS_TRANSPORTABLE = 2
+const PS_EXTRACTED = 3
+const PS_DEAD = 4
+# DirectorEventType
+const EVT_POWER_FAILURE = 0
+const EVT_REINFORCEMENT = 1
+const EVT_AMBUSH = 2
+const EVT_LOCKDOWN = 3
 
 var pass_count = 0
 var fail_count = 0
@@ -21,14 +52,14 @@ func _init():
 	# Setup mission: INSERT → LOCATE → STABILIZE → ESCORT → EXTRACT
 	mission.set_insertion_room(1)
 	mission.set_extraction_room(5)
-	mission.add_objective(ObjectiveType.LOCATE_VIP, 3, 0)
-	mission.add_objective(ObjectiveType.STABILIZE_PATIENT, 0, 0)
-	mission.add_objective(ObjectiveType.ESCORT_TO_EXTRACTION, 5, 0)
-	mission.add_objective(ObjectiveType.EXTRACT, 5, 0)
+	mission.add_objective_with_ids(OBJ_LOCATE_VIP, 3, 0)
+	mission.add_objective_with_ids(OBJ_STABILIZE_PATIENT, 0, 0)
+	mission.add_objective_with_ids(OBJ_ESCORT_TO_EXTRACTION, 5, 0)
+	mission.add_objective_with_ids(OBJ_EXTRACT, 5, 0)
 
 	# Setup patient
 	patient.set_patient_agent_id(100)
-	patient.set_state(PatientState.CRITICAL)
+	patient.set_state_id(PS_CRITICAL)
 
 	# Create VIP agent
 	var vip = Agent.new()
@@ -49,17 +80,19 @@ func _init():
 		ws.add_agent(a)
 
 	mission.start_mission()
-	assert_eq(mission.get_status(), MissionStatus.IN_PROGRESS, "Mission should be IN_PROGRESS")
+	assert_eq(mission.get_status_id(), MS_IN_PROGRESS, "Mission should be IN_PROGRESS")
 
-	# Simulate mission progression — tick and auto-complete objectives
+	# Simulate mission progression — tick sim + pump mission clock manually
+	# (nodes are not in the scene tree, so _process never runs on its own).
 	for tick in range(600):
 		ws.tick(1.0 / 60.0)
+		mission._process(1.0 / 60.0)
 
-		if mission.get_status() == MissionStatus.IN_PROGRESS:
+		if mission.get_status_id() == MS_IN_PROGRESS:
 			mission.complete_current_objective()
 
 	# Verify mission completed
-	assert_eq(mission.get_status(), MissionStatus.COMPLETED_SUCCESS, "Mission should succeed")
+	assert_eq(mission.get_status_id(), MS_COMPLETED_SUCCESS, "Mission should succeed")
 	assert_gt(mission.get_elapsed_time(), 0.0, "Mission elapsed time should be > 0")
 
 	# Record outcome in campaign
@@ -71,7 +104,7 @@ func _init():
 	print("--- Test 2: Patient Stabilization ---")
 	var patient2 = Patient.new()
 	patient2.set_patient_agent_id(200)
-	patient2.set_state(PatientState.CRITICAL)
+	patient2.set_state_id(PS_CRITICAL)
 	patient2.set_stabilization_required(2.0)
 
 	patient2.start_stabilization(1)
@@ -81,40 +114,43 @@ func _init():
 	for i in range(120):
 		patient2.update_stabilization(1.0 / 60.0)
 
-	assert_eq(patient2.get_state(), PatientState.STABILIZED, "Patient should be STABILIZED after 2s")
+	assert_eq(patient2.get_state_id(), PS_STABILIZED, "Patient should be STABILIZED after 2s")
 	assert_true(patient2.get_stabilization_progress() >= 1.0, "Stabilization progress should be >= 1.0")
 
 	# Extract
 	patient2.extract()
-	assert_eq(patient2.get_state(), PatientState.EXTRACTED, "Patient should be EXTRACTED")
+	assert_eq(patient2.get_state_id(), PS_EXTRACTED, "Patient should be EXTRACTED")
 
 	# --- Test 3: Mission failure on time limit ---
 	print("--- Test 3: Mission Time Limit ---")
 	var mission3 = Mission.new()
 	mission3.set_time_limit(1.0)
-	mission3.add_objective(ObjectiveType.LOCATE_VIP, 3, 0)
+	mission3.add_objective_with_ids(OBJ_LOCATE_VIP, 3, 0)
 	mission3.start_mission()
 
 	# Tick past time limit — mission._process handles fail
 	for i in range(120):
 		mission3._process(1.0 / 60.0)
 
-	assert_eq(mission3.get_status(), MissionStatus.COMPLETED_FAILURE, "Mission should fail on time limit")
+	assert_eq(mission3.get_status_id(), MS_COMPLETED_FAILURE, "Mission should fail on time limit")
 
 	# --- Test 4: Mission without objectives stays IN_PROGRESS ---
 	print("--- Test 4: Mission No Objectives ---")
 	var mission4 = Mission.new()
 	mission4.start_mission()
-	assert_eq(mission4.get_status(), MissionStatus.IN_PROGRESS, "Mission without objectives should be IN_PROGRESS")
+	assert_eq(mission4.get_status_id(), MS_IN_PROGRESS, "Mission without objectives should be IN_PROGRESS")
 
 	# complete_current_objective with no objectives does nothing
 	mission4.complete_current_objective()
-	assert_eq(mission4.get_status(), MissionStatus.IN_PROGRESS, "Still IN_PROGRESS with no objectives")
+	assert_eq(mission4.get_status_id(), MS_IN_PROGRESS, "Still IN_PROGRESS with no objectives")
 
-	# --- Test 5: Director event emission ---
+	# --- Test 5: Director event emission via tick wiring ---
 	print("--- Test 5: Director Events ---")
 	var ws5 = WorldSimulation.new()
 	var director = Director.new()
+	# Director observes through the tick (next-tick deferred events) —
+	# no manual observe() calls, no get_current_state (pure C++).
+	ws5.set_director(director)
 
 	# Create agents to populate world state
 	for i in range(4):
@@ -126,23 +162,22 @@ func _init():
 		a.set_max_health(100.0)
 		ws5.add_agent(a)
 
-	# Tick and let Director observe
+	# Tick and let Director observe through WorldSimulation
 	for tick in range(300):
 		ws5.tick(1.0 / 60.0)
-		director.observe(ws5.get_current_state(), 1.0 / 60.0)
 
 		# Manually emit lockdown at tick 180
 		if tick == 180:
-			director.emit_event(DirectorEventType.LOCKDOWN, Vector3(10, 0, 0), 20.0, "Lockdown initiated")
+			director.emit_event_with_id(EVT_LOCKDOWN, Vector3(10, 0, 0), 20.0, "Lockdown initiated")
 
 	# Verify Director emitted events
-	var events = director.get_event_history()
 	var has_lockdown = false
 	var has_reinforcement = false
-	for e in events:
-		if e.type == DirectorEventType.LOCKDOWN:
+	for i in range(director.get_history_count()):
+		var t = director.get_history_event_type(i)
+		if t == EVT_LOCKDOWN:
 			has_lockdown = true
-		if e.type == DirectorEventType.REINFORCEMENT:
+		if t == EVT_REINFORCEMENT:
 			has_reinforcement = true
 
 	assert_true(has_lockdown, "Director should have emitted LOCKDOWN event")
@@ -152,11 +187,9 @@ func _init():
 	# Tick longer to trigger time-based event
 	for tick in range(2000):
 		ws5.tick(1.0 / 60.0)
-		director.observe(ws5.get_current_state(), 1.0 / 60.0)
 
-	var events2 = director.get_event_history()
-	for e in events2:
-		if e.type == DirectorEventType.REINFORCEMENT:
+	for i in range(director.get_history_count()):
+		if director.get_history_event_type(i) == EVT_REINFORCEMENT:
 			has_reinforcement = true
 			break
 	assert_true(has_reinforcement, "Director should have emitted REINFORCEMENT after 30s+")

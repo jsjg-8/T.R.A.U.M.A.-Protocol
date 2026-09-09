@@ -54,6 +54,11 @@ public:
 
 	void emit_event(DirectorEventType p_type, const Vector3 &p_origin, float p_radius, const String &p_desc);
 
+	// GDScript-visible int variants (enum/vector are internal, not Variant-compatible).
+	void emit_event_with_id(int64_t p_type, const Vector3 &p_origin, float p_radius, const String &p_desc);
+	int64_t get_history_count() const;
+	int64_t get_history_event_type(int64_t p_index) const;
+
 	const std::vector<DirectorEvent> &get_pending_events() const;
 	void clear_pending_events();
 

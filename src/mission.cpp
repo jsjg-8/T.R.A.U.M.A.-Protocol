@@ -13,7 +13,11 @@ void Mission::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("fail_mission"), &Mission::fail_mission);
 	ClassDB::bind_method(D_METHOD("cancel_mission"), &Mission::cancel_mission);
 
-	// add_objective — takes ObjectiveType (internal enum), use from C++ only
+	// add_objective — takes ObjectiveType (internal enum), use from C++ only.
+	// GDScript uses add_objective_with_ids with plain ints instead.
+	ClassDB::bind_method(D_METHOD("add_objective_with_ids", "type", "room", "agent"), &Mission::add_objective_with_ids);
+	ClassDB::bind_method(D_METHOD("get_status_id"), &Mission::get_status_id);
+	ClassDB::bind_method(D_METHOD("get_current_objective_type_id"), &Mission::get_current_objective_type_id);
 	ClassDB::bind_method(D_METHOD("get_objective_count"), &Mission::get_objective_count);
 	ClassDB::bind_method(D_METHOD("get_current_objective_index"), &Mission::get_current_objective_index);
 	ClassDB::bind_method(D_METHOD("has_objectives"), &Mission::has_objectives);
@@ -102,6 +106,18 @@ void Mission::add_objective(ObjectiveType p_type, RoomId p_room, AgentId p_agent
 	obj.target_agent = p_agent;
 	obj.completed = false;
 	objectives.push_back(obj);
+}
+
+void Mission::add_objective_with_ids(int64_t p_type, int64_t p_room, int64_t p_agent) {
+	add_objective(static_cast<ObjectiveType>(p_type), static_cast<RoomId>(p_room), static_cast<AgentId>(p_agent));
+}
+
+int64_t Mission::get_status_id() const {
+	return static_cast<int64_t>(status);
+}
+
+int64_t Mission::get_current_objective_type_id() const {
+	return static_cast<int64_t>(get_current_objective_type());
 }
 
 int32_t Mission::get_objective_count() const {
