@@ -19,6 +19,8 @@ void WorldSimulation::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_squad_count"), &WorldSimulation::get_squad_count);
 	ClassDB::bind_method(D_METHOD("set_debug_verbose", "verbose"), &WorldSimulation::set_debug_verbose);
 	ClassDB::bind_method(D_METHOD("get_debug_verbose"), &WorldSimulation::get_debug_verbose);
+	ClassDB::bind_method(D_METHOD("get_tick_count"), &WorldSimulation::get_tick_count);
+	ClassDB::bind_method(D_METHOD("get_elapsed_time"), &WorldSimulation::get_elapsed_time);
 
 	ClassDB::add_property("WorldSimulation", PropertyInfo(Variant::BOOL, "debug_verbose"), "set_debug_verbose", "get_debug_verbose");
 
@@ -155,6 +157,14 @@ Agent *WorldSimulation::get_agent(AgentId id) const {
 
 int32_t WorldSimulation::get_agent_count() const {
 	return agents.size();
+}
+
+uint64_t WorldSimulation::get_tick_count() const {
+	return current_state.tick_count;
+}
+
+float WorldSimulation::get_elapsed_time() const {
+	return current_state.elapsed_time;
 }
 
 void WorldSimulation::set_debug_verbose(bool verbose) {

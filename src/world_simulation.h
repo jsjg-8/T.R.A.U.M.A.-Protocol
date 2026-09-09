@@ -54,6 +54,11 @@ public:
 	const WorldState &get_current_state() const { return current_state; }
 	WorldState &get_mutable_state() { return next_state; }
 
+	// GDScript-visible snapshot queries (WorldState itself is pure C++,
+	// not Variant-compatible, so expose scalars instead).
+	uint64_t get_tick_count() const;
+	float get_elapsed_time() const;
+
 	void set_debug_verbose(bool verbose);
 	bool get_debug_verbose() const;
 };
