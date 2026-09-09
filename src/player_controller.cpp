@@ -65,8 +65,10 @@ void PlayerController::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_pitch", "amount_degrees"), &PlayerController::add_pitch);
 	ClassDB::bind_method(D_METHOD("clamp_pitch"), &PlayerController::clamp_pitch);
 
-	// Input handling
-	ClassDB::bind_method(D_METHOD("_unhandled_input", "event"), &PlayerController::_unhandled_input);
+	// Note: _input is a virtual override (auto-registered by ClassDB).
+	// Do NOT bind _unhandled_input here — the class never declares it, so
+	// &PlayerController::_unhandled_input resolves to Node::_unhandled_input
+	// and fails with "Class 'Node' doesn't exist." (see class_db.cpp bind_methodfi).
 
 	ClassDB::bind_method(D_METHOD("set_camera_collision_mask", "mask"), &PlayerController::set_camera_collision_mask);
 	ClassDB::bind_method(D_METHOD("get_camera_collision_mask"), &PlayerController::get_camera_collision_mask);
