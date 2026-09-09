@@ -1,4 +1,5 @@
 #include "agent.h"
+#include "action.h"
 #include "world_simulation.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -76,6 +77,42 @@ void Agent::_ready() {
 void Agent::update(double delta, const WorldState &world) {
 	if (!get_is_alive()) {
 		return;
+	}
+
+	// Utility selection — pick highest-utility executable action each tick.
+	// Actions set move_target/goal; steering below executes locomotion.
+	// Fallback is TakeCover (hold) when nothing scores above zero.
+	ActionContext ctx;
+	ctx.world = &world;
+	ctx.self = this;
+	ctx.delta = delta;
+
+	Action *actions[6] = {
+		create_take_cover_action(),
+		create_advance_action(),
+		create_retreat_action(),
+		create_flank_action(),
+		create_search_action(),
+		create_suppress_action(),
+	};
+
+	Action *best = actions[0];
+	float best_utility = -1.0f;
+	for (int i = 0; i < 6; i++) {
+		if (!actions[i]->can_execute(ctx)) {
+			continue;
+		}
+		float u = actions[i]->utility(ctx);
+		if (u > best_utility) {
+			best_utility = u;
+			best = actions[i];
+		}
+	}
+	if (best && best_utility > 0.0f) {
+		best->execute(this, ctx);
+		if (debug_verbose) {
+			UtilityFunctions::print("Agent ", agent_id, ": action ", best->get_name(), " utility ", best_utility);
+		}
 	}
 
 	if (has_move_target) {
