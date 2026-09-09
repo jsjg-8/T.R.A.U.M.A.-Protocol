@@ -1,5 +1,6 @@
 #include "world_simulation.h"
 #include "agent.h"
+#include "squad.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -12,6 +13,10 @@ void WorldSimulation::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_agent", "agent"), &WorldSimulation::add_agent);
 	ClassDB::bind_method(D_METHOD("remove_agent", "id"), &WorldSimulation::remove_agent);
 	ClassDB::bind_method(D_METHOD("get_agent", "id"), &WorldSimulation::get_agent);
+	ClassDB::bind_method(D_METHOD("add_squad", "squad"), &WorldSimulation::add_squad);
+	ClassDB::bind_method(D_METHOD("remove_squad", "id"), &WorldSimulation::remove_squad);
+	ClassDB::bind_method(D_METHOD("get_squad", "id"), &WorldSimulation::get_squad);
+	ClassDB::bind_method(D_METHOD("get_squad_count"), &WorldSimulation::get_squad_count);
 	ClassDB::bind_method(D_METHOD("set_debug_verbose", "verbose"), &WorldSimulation::set_debug_verbose);
 	ClassDB::bind_method(D_METHOD("get_debug_verbose"), &WorldSimulation::get_debug_verbose);
 
@@ -67,7 +72,11 @@ void WorldSimulation::tick_perception(double delta) {
 }
 
 void WorldSimulation::tick_squads(double delta) {
-	// Phase 2: Squad logic
+	for (int i = 0; i < squads.size(); i++) {
+		if (squads[i]) {
+			squads[i]->update(delta, next_state);
+		}
+	}
 }
 
 void WorldSimulation::tick_agents(double delta) {
@@ -154,4 +163,36 @@ void WorldSimulation::set_debug_verbose(bool verbose) {
 
 bool WorldSimulation::get_debug_verbose() const {
 	return debug_verbose;
+}
+
+void WorldSimulation::add_squad(Squad *squad) {
+	if (!squad) {
+		return;
+	}
+	squads.push_back(squad);
+	if (debug_verbose) {
+		UtilityFunctions::print("WorldSimulation: added squad ", squad->get_squad_id());
+	}
+}
+
+void WorldSimulation::remove_squad(SquadId id) {
+	for (int i = squads.size() - 1; i >= 0; i--) {
+		if (squads[i] && squads[i]->get_squad_id() == id) {
+			squads.erase(squads.begin() + i);
+			return;
+		}
+	}
+}
+
+Squad *WorldSimulation::get_squad(SquadId id) const {
+	for (int i = 0; i < squads.size(); i++) {
+		if (squads[i] && squads[i]->get_squad_id() == id) {
+			return squads[i];
+		}
+	}
+	return nullptr;
+}
+
+int32_t WorldSimulation::get_squad_count() const {
+	return squads.size();
 }

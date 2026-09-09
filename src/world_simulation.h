@@ -8,6 +8,7 @@
 using namespace godot;
 
 class Agent;
+class Squad;
 
 class WorldSimulation : public Node {
 	GDCLASS(WorldSimulation, Node)
@@ -17,6 +18,7 @@ private:
 	WorldState next_state;
 
 	std::vector<Agent *> agents;
+	std::vector<Squad *> squads;
 
 	bool debug_verbose = false;
 
@@ -43,6 +45,11 @@ public:
 	void remove_agent(AgentId id);
 	Agent *get_agent(AgentId id) const;
 	int32_t get_agent_count() const;
+
+	void add_squad(Squad *squad);
+	void remove_squad(SquadId id);
+	Squad *get_squad(SquadId id) const;
+	int32_t get_squad_count() const;
 
 	const WorldState &get_current_state() const { return current_state; }
 	WorldState &get_mutable_state() { return next_state; }

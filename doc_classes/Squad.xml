@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Squad" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>Command layer for tactical squad coordination.</brief_description>
+	<description>Holds members, leader, objective, and tactical state. Aggregates member perceptions and issues orders. Decides WHAT; agents decide HOW.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="set_squad_id">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the unique SquadId.</description>
+		</method>
+		<method name="get_squad_id">
+			<return type="int" />
+			<description>Get the unique SquadId.</description>
+		</method>
+		<method name="add_member">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Add an agent to the squad.</description>
+		</method>
+		<method name="remove_member">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Remove an agent from the squad.</description>
+		</method>
+		<method name="get_member_count">
+			<return type="int" />
+			<description>Get the number of squad members.</description>
+		</method>
+		<method name="set_leader">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Set the squad leader agent ID.</description>
+		</method>
+		<method name="get_leader_id">
+			<return type="int" />
+			<description>Get the squad leader agent ID.</description>
+		</method>
+		<method name="update">
+			<return type="void" />
+			<param index="0" name="delta" type="float" />
+			<param index="1" name="world" type="Dictionary" />
+			<description>Tick the squad: aggregate perceptions, evaluate tactical state, issue orders.</description>
+		</method>
+	</methods>
+</class>

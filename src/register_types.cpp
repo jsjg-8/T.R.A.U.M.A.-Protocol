@@ -12,6 +12,7 @@
 #include "health_component.h"
 #include "perception_component.h"
 #include "sector.h"
+#include "squad.h"
 #include "traffic_light.h"
 #include "world_simulation.h"
 
@@ -33,6 +34,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 	GDREGISTER_CLASS(Sector);
 	GDREGISTER_CLASS(Actor);
 	GDREGISTER_CLASS(PerceptionComponent);
+	GDREGISTER_CLASS(Squad);
 	// Create InputManager singleton so PlayerController::_ready() can use it
 	memnew(InputManager);
 	InputManager::get_singleton()->initialize_input_map();
