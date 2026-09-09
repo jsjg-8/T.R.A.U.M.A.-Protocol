@@ -47,3 +47,21 @@ jobs:
         with:
           scons-cache: ${{ github.workspace }}/.scons-cache/
           cache-name: fast_linux_x86_64_single_template_debug_v4.7
+
+      - name: Verify .so in game/bin
+        run: |
+          ls -la game/bin/linux/ || echo "SCons copy may have failed, checking bin/"
+          ls -la bin/linux/ || true
+
+      - name: Setup Godot
+        run: |
+          wget -q -O /tmp/godot.zip "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip"
+          unzip -o /tmp/godot.zip -d /tmp/
+          chmod +x /tmp/Godot_v4.7.2-stable_linux.x86_64
+          sudo ln -sf /tmp/Godot_v4.7.2-stable_linux.x86_64 /usr/bin/godot
+
+      - name: Run headless tick harness
+        run: godot --headless --path game/ -s tests/test_headless_tick.gd
+
+      - name: Run Phase 3 Trauma Team POC test
+        run: godot --headless --path game/ -s tests/test_phase3_trauma_team.gd
