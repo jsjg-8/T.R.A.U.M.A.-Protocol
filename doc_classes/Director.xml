@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Director" inherits="Node">
+	<brief_description>Observer that reads WorldState and emits DirectorEvents.</brief_description>
+	<description>Non-intrusive observer. Reads WorldState + MissionState each tick, evaluates conditions, and emits deferred DirectorEvents. Never calls Agent/Squad methods directly.</description>
+	<methods>
+		<method name="observe">
+			<return type="void" />
+			<param index="0" name="world" type="WorldState" />
+			<param index="1" name="delta" type="float" />
+			<description>Called by WorldSimulation each tick to observe world state.</description>
+		</method>
+		<method name="clear_pending_events">
+			<return type="void" />
+			<description>Clears pending events after consumption.</description>
+		</method>
+		<method name="reset">
+			<return type="void" />
+			<description>Resets all state and event history.</description>
+		</method>
+		<method name="set_mission_time_threshold">
+			<return type="void" />
+			<param index="0" name="threshold" type="float" />
+		</method>
+		<method name="get_mission_time_threshold">
+			<return type="float" />
+		</method>
+		<method name="set_casualty_threshold">
+			<return type="void" />
+			<param index="0" name="threshold" type="int" />
+		</method>
+		<method name="get_casualty_threshold">
+			<return type="int" />
+		</method>
+		<method name="set_alertness_threshold">
+			<return type="void" />
+			<param index="0" name="threshold" type="float" />
+		</method>
+		<method name="get_alertness_threshold">
+			<return type="float" />
+		</method>
+	</methods>
+	<signals>
+		<signal name="director_event">
+			<param index="0" name="event_type" type="int" />
+			<param index="1" name="timestamp" type="float" />
+		</signal>
+	</signals>
+</class>

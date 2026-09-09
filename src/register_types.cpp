@@ -9,6 +9,8 @@
 #include "./player_controller.h"
 #include "actor.h"
 #include "agent.h"
+#include "campaign_state.h"
+#include "director.h"
 #include "faction.h"
 #include "faction_registry.h"
 #include "health_component.h"
@@ -43,6 +45,8 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 	GDREGISTER_CLASS(FactionRegistry);
 	GDREGISTER_CLASS(Mission);
 	GDREGISTER_CLASS(Patient);
+	GDREGISTER_CLASS(Director);
+	GDREGISTER_CLASS(CampaignState);
 	// Create InputManager singleton so PlayerController::_ready() can use it
 	memnew(InputManager);
 	InputManager::get_singleton()->initialize_input_map();
