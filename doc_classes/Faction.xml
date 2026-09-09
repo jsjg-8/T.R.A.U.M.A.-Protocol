@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Faction" inherits="Resource">
+	<brief_description>Faction entity with alliance/enemy relationships.</brief_description>
+	<description>A faction represents a group with shared interests. Tracks alertness, strength, and relationships (allies/enemies) with other factions.</description>
+	<tutorials>
+		<link title="Simulation Architecture">https://github.com/jsjg-8/T.R.A.U.M.A.-Protocol</link>
+	</tutorials>
+	<methods>
+		<method name="set_faction_id">
+			<return type="int" />
+			<param index="0" name="id" type="int" />
+			<description>Sets the faction's unique identifier.</description>
+		</method>
+		<method name="get_faction_id">
+			<return type="int" />
+			<description>Returns the faction's unique identifier.</description>
+		</method>
+		<method name="set_faction_name">
+			<return type="void" />
+			<param index="0" name="name" type="String" />
+			<description>Sets the faction's display name.</description>
+		</method>
+		<method name="get_faction_name">
+			<return type="String" />
+			<description>Returns the faction's display name.</description>
+		</method>
+		<method name="set_alertness">
+			<return type="void" />
+			<param index="0" name="alertness" type="float" />
+			<description>Sets alertness (0.0–1.0). Rises with casualties.</description>
+		</method>
+		<method name="get_alertness">
+			<return type="float" />
+			<description>Returns current alertness level.</description>
+		</method>
+		<method name="set_strength">
+			<return type="void" />
+			<param index="0" name="strength" type="int" />
+			<description>Sets the faction's effective strength (alive agents).</description>
+		</method>
+		<method name="get_strength">
+			<return type="int" />
+			<description>Returns the faction's effective strength.</description>
+		</method>
+		<method name="add_ally">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Adds a faction ID as an ally.</description>
+		</method>
+		<method name="add_enemy">
+			<return type="void" />
+			<param index="0" name="id" type="int" />
+			<description>Adds a faction ID as an enemy.</description>
+		</method>
+		<method name="is_enemy">
+			<return type="bool" />
+			<param index="0" name="id" type="int" />
+			<description>Returns true if the given faction is an enemy.</description>
+		</method>
+		<method name="is_ally">
+			<return type="bool" />
+			<param index="0" name="id" type="int" />
+			<description>Returns true if the given faction is an ally.</description>
+		</method>
+	</methods>
+	<members>
+		<member name="faction_id" type="int" default="0" setter="set_faction_id" getter="get_faction_id">
+			Unique identifier for this faction.
+		</member>
+		<member name="faction_name" type="String" default="&quot;&quot;" setter="set_faction_name" getter="get_faction_name">
+			Display name for this faction.
+		</member>
+		<member name="alertness" type="float" default="0.0" setter="set_alertness" getter="get_alertness">
+			Alertness level (0.0–1.0). Increases with casualties.
+		</member>
+		<member name="strength" type="int" default="100" setter="set_strength" getter="get_strength">
+			Effective strength (number of alive agents).
+		</member>
+	</members>
+</class>

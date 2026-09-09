@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="FactionRegistry" inherits="Node">
+	<brief_description>Registry for all factions in the simulation.</brief_description>
+	<description>Manages faction instances, provides relationship queries (allies/enemies), and updates faction alertness/strength based on agent casualties.</description>
+	<tutorials>
+		<link title="Simulation Architecture">https://github.com/jsjg-8/T.R.A.U.M.A.-Protocol</link>
+	</tutorials>
+	<methods>
+		<method name="add_faction">
+			<return type="void" />
+			<param index="0" name="faction" type="Faction" />
+			<description>Registers a faction in the registry.</description>
+		</method>
+		<method name="get_faction">
+			<return type="Faction" />
+			<param index="0" name="id" type="int" />
+			<description>Returns the faction with the given ID, or null if not found.</description>
+		</method>
+		<method name="get_faction_count">
+			<return type="int" />
+			<description>Returns the number of registered factions.</description>
+		</method>
+		<method name="are_enemies">
+			<return type="bool" />
+			<param index="0" name="a" type="int" />
+			<param index="1" name="b" type="int" />
+			<description>Returns true if faction A considers faction B an enemy.</description>
+		</method>
+		<method name="are_allies">
+			<return type="bool" />
+			<param index="0" name="a" type="int" />
+			<param index="1" name="b" type="int" />
+			<description>Returns true if faction A considers faction B an ally.</description>
+		</method>
+	</methods>
+</class>
