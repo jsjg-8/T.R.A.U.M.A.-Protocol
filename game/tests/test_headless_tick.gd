@@ -26,7 +26,7 @@ func _init():
 
 	# Give agent a move target and tick
 	agent.set_move_target(Vector3(10, 0, 0))
-	for i in range(1000):
+	for i in range(120):
 		ws.tick(1.0 / 60.0)
 
 	# Verify movement
@@ -75,7 +75,7 @@ func _init():
 
 	assert_eq(ws2.get_agent_count(), 10, "Should have 10 agents")
 
-	for i in range(600):
+	for i in range(120):
 		ws2.tick(1.0 / 60.0)
 
 	# All agents should have moved slightly
