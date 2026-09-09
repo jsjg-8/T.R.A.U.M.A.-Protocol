@@ -52,3 +52,11 @@ jobs:
         run: |
           ls -la game/bin/linux/ || echo "SCons copy may have failed, checking bin/"
           ls -la bin/linux/ || true
+
+      - name: Upload Fast Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trauma-fast-linux-x86_64-single-template_debug
+          path: |
+            bin/linux/**
+            game/bin/linux/**
