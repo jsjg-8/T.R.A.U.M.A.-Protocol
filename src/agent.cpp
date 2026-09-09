@@ -109,7 +109,10 @@ void Agent::update(double delta, const WorldState &world) {
 			best = actions[i];
 		}
 	}
-	if (best && best_utility > 0.0f) {
+	// Execution threshold: idle TakeCover scores 0.1 utility and must not
+	// clobber explicit move orders (e.g. headless tick steering). Combat
+	// actions score >= 0.2 utility when they genuinely trigger.
+	if (best && best_utility > 0.15f) {
 		best->execute(this, ctx);
 		if (debug_verbose) {
 			UtilityFunctions::print("Agent ", agent_id, ": action ", best->get_name(), " utility ", best_utility);
