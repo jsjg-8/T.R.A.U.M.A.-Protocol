@@ -12,6 +12,8 @@
 #include "faction.h"
 #include "faction_registry.h"
 #include "health_component.h"
+#include "mission.h"
+#include "patient.h"
 #include "perception_component.h"
 #include "sector.h"
 #include "squad.h"
@@ -39,6 +41,8 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 	GDREGISTER_CLASS(Squad);
 	GDREGISTER_CLASS(Faction);
 	GDREGISTER_CLASS(FactionRegistry);
+	GDREGISTER_CLASS(Mission);
+	GDREGISTER_CLASS(Patient);
 	// Create InputManager singleton so PlayerController::_ready() can use it
 	memnew(InputManager);
 	InputManager::get_singleton()->initialize_input_map();

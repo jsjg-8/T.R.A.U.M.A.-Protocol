@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Patient" inherits="Node">
+	<brief_description>Patient entity with stabilization and extraction lifecycle.</brief_description>
+	<description>Tracks patient state (CRITICAL → STABILIZED → TRANSPORTABLE → EXTRACTED), stabilization progress, and assigned medic.</description>
+	<tutorials>
+		<link title="Simulation Architecture">https://github.com/jsjg-8/T.R.A.U.M.A.-Protocol</link>
+	</tutorials>
+	<methods>
+		<method name="start_stabilization">
+			<return type="void" />
+			<param index="0" name="medic_id" type="int" />
+			<description>Assigns a medic and begins stabilization.</description>
+		</method>
+		<method name="update_stabilization">
+			<return type="void" />
+			<param index="0" name="delta" type="float" />
+			<description>Advances stabilization progress by delta seconds.</description>
+		</method>
+		<method name="extract">
+			<return type="void" />
+			<description>Moves patient to EXTRACTED state if eligible.</description>
+		</method>
+	</methods>
+	<members>
+		<member name="patient_agent_id" type="int" default="0" setter="set_patient_agent_id" getter="get_patient_agent_id">
+			Agent ID of the patient.
+		</member>
+		<member name="assigned_medic_id" type="int" default="0" setter="set_assigned_medic" getter="get_assigned_medic">
+			Agent ID of the assigned medic.
+		</member>
+		<member name="stabilization_required" type="float" default="1.0" setter="set_stabilization_required" getter="get_stabilization_required">
+			Time in seconds required to stabilize.
+		</member>
+	</members>
+</class>

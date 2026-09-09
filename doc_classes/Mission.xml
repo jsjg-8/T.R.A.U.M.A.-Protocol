@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Mission" inherits="Node">
+	<brief_description>Mission with objectives, time limits, and status tracking.</brief_description>
+	<description>Manages mission lifecycle: objectives, insertion/extraction points, time limits, and success/failure conditions. Emits signals on state transitions.</description>
+	<tutorials>
+		<link title="Simulation Architecture">https://github.com/jsjg-8/T.R.A.U.M.A.-Protocol</link>
+	</tutorials>
+	<methods>
+		<method name="start_mission">
+			<return type="void" />
+			<description>Starts the mission. Transitions from PENDING to IN_PROGRESS.</description>
+		</method>
+		<method name="complete_current_objective">
+			<return type="void" />
+			<description>Marks the current objective as completed and advances to the next.</description>
+		</method>
+		<method name="fail_mission">
+			<return type="void" />
+			<description>Fails the mission immediately.</description>
+		</method>
+		<method name="cancel_mission">
+			<return type="void" />
+			<description>Cancels the mission.</description>
+		</method>
+		<method name="add_objective">
+			<return type="void" />
+			<param index="0" name="type" type="int" />
+			<param index="1" name="room" type="int" />
+			<param index="2" name="agent" type="int" />
+			<description>Adds a new objective to the mission.</description>
+		</method>
+		<method name="has_objectives">
+			<return type="bool" />
+			<description>Returns true if the mission has any objectives.</description>
+		</method>
+		<method name="all_objectives_completed">
+			<return type="bool" />
+			<description>Returns true if all objectives are completed.</description>
+		</method>
+	</methods>
+	<members>
+		<member name="mission_id" type="int" default="0" setter="set_mission_id" getter="get_mission_id">
+			Unique identifier for this mission.
+		</member>
+		<member name="insertion_room" type="int" default="0" setter="set_insertion_room" getter="get_insertion_room">
+			Room where the team inserts.
+		</member>
+		<member name="extraction_room" type="int" default="0" setter="set_extraction_room" getter="get_extraction_room">
+			Room where the team extracts.
+		</member>
+		<member name="time_limit" type="float" default="-1.0" setter="set_time_limit" getter="get_time_limit">
+			Time limit in seconds. -1 means no limit.
+		</member>
+	</members>
+</class>
