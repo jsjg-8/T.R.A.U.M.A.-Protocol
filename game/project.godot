@@ -17,9 +17,17 @@ run/main_scene="uid://hm1ki7dr00vy"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+McpBridgeGame="*res://addons/godot_mcp/mcp_runtime_probe.gd"
+
 [dotnet]
 
 project/assembly_name="T.R.A.U.M.A. Protocol"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
 
 [input]
 
