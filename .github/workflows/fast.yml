@@ -60,8 +60,12 @@ jobs:
           chmod +x /tmp/Godot_v4.7.2-stable_linux.x86_64
           sudo ln -sf /tmp/Godot_v4.7.2-stable_linux.x86_64 /usr/bin/godot
 
+      - name: Import Godot project
+        run: godot --headless --path game/ --import --quit 2>&1 | tail -30 || true
+
       - name: Run headless tick harness
-        run: godot --headless --path game/ -s tests/test_headless_tick.gd
+        run: godot --headless --path game/ --verbose -s tests/test_headless_tick.gd 2>&1 | tail -80
 
       - name: Run Phase 3 Trauma Team POC test
-        run: godot --headless --path game/ -s tests/test_phase3_trauma_team.gd
+        run: |
+          godot --headless --path game/ --verbose -s tests/test_phase3_trauma_team.gd 2>&1 | tail -80
