@@ -18,11 +18,8 @@ void PerceptionComponent::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_confidence_decay_rate", "rate"), &PerceptionComponent::set_confidence_decay_rate);
 	ClassDB::bind_method(D_METHOD("get_confidence_decay_rate"), &PerceptionComponent::get_confidence_decay_rate);
 
-	ClassDB::bind_method(D_METHOD("update_perception", "delta", "world"), &PerceptionComponent::update_perception);
-	ClassDB::bind_method(D_METHOD("on_hearing_event", "origin", "loudness"), &PerceptionComponent::on_hearing_event);
-	ClassDB::bind_method(D_METHOD("on_visual_contact", "target_id", "position", "confidence"), &PerceptionComponent::on_visual_contact);
-	ClassDB::bind_method(D_METHOD("can_see_target", "target_id"), &PerceptionComponent::can_see_target);
-	ClassDB::bind_method(D_METHOD("get_last_known", "target_id"), &PerceptionComponent::get_last_known);
+	// update_perception, on_hearing_event, on_visual_contact, can_see_target,
+	// get_last_known, clear — pure C++ internal methods, not exposed as Godot Variant
 	ClassDB::bind_method(D_METHOD("clear"), &PerceptionComponent::clear);
 
 	ClassDB::add_property("PerceptionComponent", PropertyInfo(Variant::FLOAT, "visual_range", PROPERTY_HINT_RANGE, "5.0,100.0,1.0"), "set_visual_range", "get_visual_range");
