@@ -101,6 +101,35 @@ jobs:
           path: |
             ${{ github.workspace }}/bin/**
 
+  # Headless simulation tests — run on linux x86_64 template_debug only
+  test:
+    runs-on: ubuntu-22.04
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Download linux x86_64 template_debug artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: godot-cpp-template-linux-x86_64-single-template_debug
+          path: bin/
+
+      - name: Setup Godot
+        run: |
+          sudo wget -O /usr/bin/godot "https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip"
+          sudo unzip -o /usr/bin/godot -d /usr/bin/
+          sudo chmod +x /usr/bin/Godot_v4.4.1-stable_linux.x86_64
+          sudo ln -sf /usr/bin/Godot_v4.4.1-stable_linux.x86_64 /usr/bin/godot
+
+      - name: Run headless tick harness
+        run: godot --headless --path game/ -s tests/test_headless_tick.gd
+
+      - name: Run Phase 3 Trauma Team POC test
+        run: godot --headless --path game/ -s tests/test_phase3_trauma_team.gd
+
   # Merges all the build artifacts together into a single godot-cpp-template artifact.
   # If you comment out this step, all the builds will be uploaded individually.
   merge:
