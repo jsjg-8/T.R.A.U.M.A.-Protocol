@@ -87,7 +87,8 @@ void Agent::update(double delta, const WorldState &world) {
 	ctx.self = this;
 	ctx.delta = delta;
 
-	Action *actions[6] = {
+	// Cached once — src/actions factories heap-allocate per call.
+	static Action *actions[6] = {
 		create_take_cover_action(),
 		create_advance_action(),
 		create_retreat_action(),
