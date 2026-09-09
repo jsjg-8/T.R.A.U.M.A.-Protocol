@@ -7,12 +7,13 @@
 
 #include "./input_manager.h"
 #include "./player_controller.h"
+#include "actor.h"
 #include "agent.h"
 #include "health_component.h"
+#include "perception_component.h"
+#include "sector.h"
 #include "traffic_light.h"
 #include "world_simulation.h"
-#include "sector.h"
-#include "actor.h"
 
 using namespace godot;
 
@@ -31,6 +32,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 	GDREGISTER_CLASS(Room);
 	GDREGISTER_CLASS(Sector);
 	GDREGISTER_CLASS(Actor);
+	GDREGISTER_CLASS(PerceptionComponent);
 	// Create InputManager singleton so PlayerController::_ready() can use it
 	memnew(InputManager);
 	InputManager::get_singleton()->initialize_input_map();

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="PerceptionComponent" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>Attachable perception node for agent awareness.</brief_description>
+	<description>Handles visual cone, hearing radius, and confidence decay for agents. Maintains PerceptionState and syncs to owner Agent. Attach as child of Agent node.</description>
+	<tutorials></tutorials>
+	<methods>
+		<method name="set_visual_range">
+			<return type="void" />
+			<param index="0" name="range" type="float" />
+			<description>Set visual detection range in world units.</description>
+		</method>
+		<method name="get_visual_range">
+			<return type="float" />
+			<description>Get visual detection range.</description>
+		</method>
+		<method name="set_visual_angle">
+			<return type="void" />
+			<param index="0" name="angle_degrees" type="float" />
+			<description>Set visual cone angle in degrees.</description>
+		</method>
+		<method name="get_visual_angle">
+			<return type="float" />
+			<description>Get visual cone angle.</description>
+		</method>
+		<method name="set_hearing_range">
+			<return type="void" />
+			<param index="0" name="range" type="float" />
+			<description>Set hearing detection range.</description>
+		</method>
+		<method name="get_hearing_range">
+			<return type="float" />
+			<description>Get hearing detection range.</description>
+		</method>
+		<method name="update_perception">
+			<return type="void" />
+			<param index="0" name="delta" type="float" />
+			<param index="1" name="world" type="Dictionary" />
+			<description>Update perception state from world data each tick.</description>
+		</method>
+		<method name="on_hearing_event">
+			<return type="void" />
+			<param index="0" name="origin" type="Vector3" />
+			<param index="1" name="loudness" type="float" />
+			<description>Process a hearing event at given origin with loudness multiplier.</description>
+		</method>
+		<method name="can_see_target">
+			<return type="bool" />
+			<param index="0" name="target_id" type="int" />
+			<description>Returns true if target is currently perceived with sufficient confidence.</description>
+		</method>
+		<method name="clear">
+			<return type="void" />
+			<description>Reset all perception state.</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="target_detected">
+			<param index="0" name="target_id" type="int" />
+			<param index="1" name="confidence" type="float" />
+			<description>Emitted when a new hostile target is detected.</description>
+		</signal>
+		<signal name="target_lost">
+			<param index="0" name="target_id" type="int" />
+			<description>Emitted when a previously detected target fades from perception.</description>
+		</signal>
+	</signals>
+</class>
